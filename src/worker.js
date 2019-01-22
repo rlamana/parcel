@@ -7,6 +7,8 @@ function init(options) {
   pipeline = new Pipeline(options || {});
   Object.assign(process.env, options.env || {});
   process.env.HMR_PORT = options.hmrPort;
+  process.env.HMR_PATH = options.hmrPath;
+  process.env.HMR_CLIENT_PORT = options.hmrClientPort;
   process.env.HMR_HOSTNAME = options.hmrHostname;
 }
 

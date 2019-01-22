@@ -24,8 +24,26 @@ module.bundle.Module = Module;
 var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = process.env.HMR_HOSTNAME || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + process.env.HMR_PORT + '/');
+  
+  var url = new URL(location.origin);
+  if (process.env.HMR_HOSTNAME) {
+    url.hostname = process.env.HMR_HOSTNAME;
+  }
+  if (process.env.HMR_PORT) {
+    url.port = process.env.HMR_PORT;
+  }
+  if (process.env.HMR_CLIENT_PORT) {
+    url.port = process.env.HMR_CLIENT_PORT;
+  }
+  if (process.env.HMR_PATH) {
+    url.pathname = process.env.HMR_PATH;
+  }
+  url.protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+
+  var ws = new WebSocket(url.toString());
+
+  
+
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

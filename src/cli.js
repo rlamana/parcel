@@ -14,6 +14,10 @@ program
     parseInt
   )
   .option(
+    '--host <host>',
+    'set the host to listen on, defaults to listening on all interfaces'
+  )
+  .option(
     '--hmr-port <port>',
     'set the port to serve HMR websockets, defaults to random',
     parseInt
@@ -21,6 +25,15 @@ program
   .option(
     '--hmr-hostname <hostname>',
     'set the hostname of HMR websockets, defaults to location.hostname of current window'
+  )
+  .option(
+    '--hmr-client-port <port>',
+    'set the port where HMR websockets is available',
+    parseInt
+  )
+  .option(
+    '--hmr-path <path>',
+    'set the path where HMR websockets is available',
   )
   .option('--https', 'serves files over HTTPS')
   .option('--cert <path>', 'path to certificate to use with HTTPS')
@@ -88,6 +101,15 @@ program
   .option(
     '--hmr-hostname <hostname>',
     'set the hostname of HMR websockets, defaults to location.hostname of current window'
+  )
+  .option(
+    '--hmr-client-port <port>',
+    'set the port where HMR websockets is available',
+    parseInt
+  )
+  .option(
+    '--hmr-path <path>',
+    'set the path where HMR websockets is available',
   )
   .option('--https', 'listen on HTTPS for HMR connections')
   .option('--cert <path>', 'path to certificate to use with HTTPS')
@@ -214,7 +236,11 @@ async function bundle(main, command) {
 
   command.target = command.target || 'browser';
   if (command.name() === 'serve' && command.target === 'browser') {
-    const server = await bundler.serve(command.port || 1234, command.https);
+    const server = await bundler.serve(
+      command.port || 1234,
+      command.https,
+      command.host
+    );
     if (server && command.open) {
       await require('./utils/openInBrowser')(
         `${command.https ? 'https' : 'http'}://localhost:${
