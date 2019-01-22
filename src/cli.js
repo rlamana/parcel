@@ -27,13 +27,8 @@ program
     'set the hostname of HMR websockets, defaults to location.hostname of current window'
   )
   .option(
-    '--hmr-client-port <port>',
-    'set the port where HMR websockets is available',
-    parseInt
-  )
-  .option(
-    '--hmr-path <path>',
-    'set the path where HMR websockets is available',
+    '--hmr-public-url <url>',
+    'set the public URL address of HMR websocket referenced in the browser. [hostname] replaces location.hostname of current window.',
   )
   .option('--https', 'serves files over HTTPS')
   .option('--cert <path>', 'path to certificate to use with HTTPS')
@@ -103,13 +98,8 @@ program
     'set the hostname of HMR websockets, defaults to location.hostname of current window'
   )
   .option(
-    '--hmr-client-port <port>',
-    'set the port where HMR websockets is available',
-    parseInt
-  )
-  .option(
-    '--hmr-path <path>',
-    'set the path where HMR websockets is available',
+    '--hmr-public-url <url>',
+    'set the public URL address of HMR websocket referenced in the browser. [hostname] replaces location.hostname of current window.',
   )
   .option('--https', 'listen on HTTPS for HMR connections')
   .option('--cert <path>', 'path to certificate to use with HTTPS')

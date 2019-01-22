@@ -103,7 +103,6 @@ class Bundler extends EventEmitter {
           : watch;
     const scopeHoist =
       options.scopeHoist !== undefined ? options.scopeHoist : false;
-    const hmrPort = options.hmrPort || 0;
     return {
       production: isProduction,
       outDir: Path.resolve(options.outDir || 'dist'),
@@ -125,9 +124,8 @@ class Bundler extends EventEmitter {
       https: options.https || false,
       logLevel: isNaN(options.logLevel) ? 3 : options.logLevel,
       entryFiles: this.entryFiles,
-      hmrPort: hmrPort,
-      hmrClientPort: options.hmrClientPort || hmrPort,
-      hmrPath: options.hmrPath || '',
+      hmrPort: options.hmrPort || 0,
+      hmrPublicUrl: options.hmrPublicUrl || '',
       rootDir: getRootDir(this.entryFiles),
       sourceMaps:
         (typeof options.sourceMaps === 'boolean' ? options.sourceMaps : true) &&
