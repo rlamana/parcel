@@ -125,12 +125,14 @@ class Bundler extends EventEmitter {
       logLevel: isNaN(options.logLevel) ? 3 : options.logLevel,
       entryFiles: this.entryFiles,
       hmrPort: options.hmrPort || 0,
+      hmrPublicUrl: options.hmrPublicUrl || '',
       rootDir: getRootDir(this.entryFiles),
       sourceMaps:
         (typeof options.sourceMaps === 'boolean' ? options.sourceMaps : true) &&
         !scopeHoist,
       hmrHostname:
         options.hmrHostname ||
+        options.host ||
         (options.target === 'electron' ? 'localhost' : ''),
       detailedReport: options.detailedReport || false,
       global: options.global,

@@ -1,3 +1,5 @@
+var getBaseURL = require('./bundle-url').getBaseURL;
+
 var OVERLAY_ID = '__parcel__error__overlay__';
 
 var OldModule = module.bundle.Module;
@@ -25,7 +27,23 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = process.env.HMR_HOSTNAME || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + process.env.HMR_PORT + '/');
+  var baseUrl = hostname + ':' + process.env.HMR_PORT + '/';
+
+  if (process.env.HMR_PUBLIC_URL) {
+    var parts = process.env.HMR_PUBLIC_URL.match(/^(\w+):\/\/(.*)/);
+    if (parts) {
+      protocol = parts[1];
+      baseUrl = parts[2];
+    } else {
+      baseUrl = getBaseURL(process.env.HMR_PUBLIC_URL);
+    }
+  }
+
+  var publicUrl = protocol + '://' + baseUrl
+    .replace('\[hostname\]', hostname);
+
+  var ws = new WebSocket(publicUrl);
+
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
